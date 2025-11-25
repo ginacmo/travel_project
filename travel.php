@@ -1,10 +1,7 @@
 <?php
-// travel.php - Improved design, English text, images, Bootstrap modal details
-// Simple student-friendly style, uses GET for page switching
-
 $db_host = 'localhost';
 $db_user = 'root';
-$db_pass = ''; // change if you use password
+$db_pass = ''; 
 $db_name = 'travel_db';
 
 $conn = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
@@ -13,8 +10,6 @@ if (!$conn) {
 }
 
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
-
-// simple escape
 function esc($s) {
     return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 }
@@ -25,7 +20,6 @@ function esc($s) {
   <meta charset="utf-8">
   <title>Mongolia → Korea Travel Guide</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body { background-color: #f8fafc; }
@@ -113,7 +107,6 @@ function esc($s) {
         $res = mysqli_query($conn, $sql);
         if ($res && mysqli_num_rows($res) > 0):
           while ($row = mysqli_fetch_assoc($res)):
-            // prepare data attributes for modal
             $data_name = esc($row['name']);
             $data_location = esc($row['location']);
             $data_desc = esc($row['description']);
@@ -152,7 +145,6 @@ function esc($s) {
     </div>
 
     <?php
-      // If user clicked "Open Page" show the full content below (simple)
       if (isset($_GET['show'])):
         $id = (int)$_GET['show'];
         $s = "SELECT * FROM places WHERE id = $id LIMIT 1";
@@ -254,8 +246,6 @@ function esc($s) {
     </div>
   </div>
 </footer>
-
-<!-- Place Modal -->
 <div class="modal fade" id="placeModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
@@ -275,11 +265,8 @@ function esc($s) {
     </div>
   </div>
 </div>
-
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  // Fill modal from card data- attributes
   var placeModal = document.getElementById('placeModal');
   placeModal.addEventListener('show.bs.modal', function (event) {
     var button = event.relatedTarget;
@@ -291,8 +278,6 @@ function esc($s) {
     document.getElementById('modalLocation').textContent = loc;
     document.getElementById('modalDesc').textContent = desc;
     document.getElementById('modalImage').src = img;
-    // set Open Page link (simple)
-    // If database has id in URL, we can't get it here, so link back to places list
     document.getElementById('modalOpenPage').href = '?page=places';
   });
 </script>
